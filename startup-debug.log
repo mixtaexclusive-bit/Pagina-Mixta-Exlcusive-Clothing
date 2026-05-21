@@ -1,0 +1,18 @@
+=== EXCLUSIVE CLOTHING DIAGNOSTICO === 
+Fecha: mar 19/05/2026 22:36:25,84 
+Carpeta: C:\Users\User\Documents\Tienda Mixta Exclusive Clothing 
+ 
+Node: 
+v24.15.0
+ 
+Next existe: 
+SI 
+ 
+Iniciando Next... 
+  ▲ Next.js 14.2.35
+  - Local:        http://127.0.0.1:3000
+  - Network:      http://127.0.0.1:3000
+  - Environments: .env.local
+
+ ✓ Starting...
+ ✓ Ready in 1595ms
