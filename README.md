@@ -29,12 +29,15 @@ npm run dev
 
 Publica la hoja en la web y usa estas columnas:
 
-| nombre | precio | imagen | tallas | categoria | descripcion | galeria |
-| --- | --- | --- | --- | --- | --- | --- |
-| Camiseta Mundial Edición Limitada | 85000 | https://res.cloudinary.com/.../main.jpg | S,M,L,XL | Camisetas | Descripción del producto | https://res.cloudinary.com/.../1.jpg,https://res.cloudinary.com/.../2.jpg |
+| nombre | precio | imagen | tallas | categoria | descripcion | galeria | fecha |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| Camiseta Mundial Edición Limitada | 85000 | https://res.cloudinary.com/.../main.jpg | S,M,L,XL | Camisetas | Descripción del producto | https://res.cloudinary.com/.../1.jpg,https://res.cloudinary.com/.../2.jpg | 2026-05-22 |
 
 Notas:
 
+- Los productos nuevos deben ir al final de la hoja para que aparezcan primero en la tienda.
+- La columna `fecha` es opcional. Si la usas, la tienda ordena por fecha más reciente.
+- La columna `categoria` define las secciones del catálogo. Usa el mismo nombre exacto para agrupar.
 - `imagen` debe ser una URL pública de Cloudinary.
 - Usa el enlace directo del archivo, normalmente empieza por `https://res.cloudinary.com/...`.
 - No uses enlaces de colección como `https://collection.cloudinary.com/...`, porque son páginas HTML y no imágenes directas.

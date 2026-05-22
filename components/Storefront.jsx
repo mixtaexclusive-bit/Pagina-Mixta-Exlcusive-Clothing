@@ -10,6 +10,7 @@ import {
   ChevronRight,
   Mail,
   MapPin,
+  MessageCircle,
   Moon,
   Phone,
   Search,
@@ -123,6 +124,68 @@ const formatPrice = (price) =>
   }).format(price || 0);
 
 const onlyUnique = (items) => Array.from(new Set(items.filter(Boolean)));
+
+const slugifyCategory = (value) =>
+  String(value || "coleccion")
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/(^-|-$)/g, "");
+
+function BasketPlusIcon({ size = 16, className = "" }) {
+  return (
+    <div className={`relative ${className}`}>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width={size}
+        height={size}
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        aria-hidden="true"
+      >
+        <path d="m5 10 3-6" />
+        <path d="m19 10-3-6" />
+        <path d="M2 10h20" />
+        <path d="m3.5 10 1.6 7.4a2 2 0 0 0 2 1.6h9.8a2 2 0 0 0 2-1.6l1.7-7.4" />
+      </svg>
+      <span className="absolute -right-1.5 -bottom-1.5 flex h-3.5 w-3.5 items-center justify-center rounded-full bg-volt text-[8px] font-black text-asphalt border border-white">
+        +
+      </span>
+    </div>
+  );
+}
+
+function BasketPlusIconLarge({ className = "" }) {
+  return (
+    <div className={`relative ${className}`}>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="22"
+        height="22"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        aria-hidden="true"
+      >
+        <path d="m5 10 3-6" />
+        <path d="m19 10-3-6" />
+        <path d="M2 10h20" />
+        <path d="m3.5 10 1.6 7.4a2 2 0 0 0 2 1.6h9.8a2 2 0 0 0 2-1.6l1.7-7.4" />
+      </svg>
+      <span className="absolute -right-2 -bottom-2 flex h-5 w-5 items-center justify-center rounded-full bg-volt text-[11px] font-black text-asphalt border-2 border-white">
+        +
+      </span>
+    </div>
+  );
+}
 
 const buildWhatsAppUrl = ({ product, size, quantity, customer }) => {
   const phone = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "573226821174";
@@ -408,36 +471,16 @@ function ProductCard({ product, onSelect, onAddToCart, index }) {
             onClick={() => onSelect(product)}
             className="flex-1 h-10 rounded-full bg-volt text-asphalt text-xs font-black uppercase tracking-[0.12em] transition hover:bg-white flex items-center justify-center gap-1.5"
           >
-            Comprar
+            <MessageCircle size={15} />
+            WhatsApp
           </button>
           <button
             type="button"
             onClick={handleAddNow}
-            title="Agregar al carrito"
-            className="group h-10 w-10 shrink-0 rounded-full bg-white text-asphalt transition hover:scale-105 hover:bg-volt flex items-center justify-center relative"
+            aria-label="Añadir a la canasta"
+            className="group h-10 w-10 shrink-0 rounded-full bg-white text-asphalt transition hover:scale-105 hover:bg-volt flex items-center justify-center"
           >
-            <div className="relative">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="16"
-                height="16"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="lucide lucide-shopping-basket"
-              >
-                <path d="m5 10 3-6" />
-                <path d="m19 10-3-6" />
-                <path d="M2 10h20" />
-                <path d="m3.5 10 1.6 7.4a2 2 0 0 0 2 1.6h9.8a2 2 0 0 0 2-1.6l1.7-7.4" />
-              </svg>
-              <span className="absolute -right-1.5 -bottom-1.5 flex h-3.5 w-3.5 items-center justify-center rounded-full bg-volt text-[8px] font-black text-asphalt border border-white group-hover:border-volt transition-colors duration-300">
-                +
-              </span>
-            </div>
+            <BasketPlusIcon className="group-hover:[&_span]:border-volt transition-colors duration-300" />
           </button>
         </div>
       </div>
@@ -699,50 +742,41 @@ function ProductModal({ product, customer, updateCustomer, onAddToCart, onClose 
             </div>
           </div>
 
-          <div className="mt-6 flex items-center gap-4">
+          <div className="mt-6 space-y-3">
+            <p className="text-xs font-black uppercase tracking-[0.16em] text-white/45">
+              Opción recomendada
+            </p>
             <a
               href={canBuy ? whatsappUrl : "#comprar"}
               target={canBuy ? "_blank" : undefined}
               rel="noreferrer"
               onClick={handleBuy}
-              className={`inline-flex h-14 flex-1 items-center justify-center gap-3 rounded-full px-6 text-sm font-black uppercase tracking-[0.12em] transition ${
+              className={`inline-flex h-14 w-full items-center justify-center gap-3 rounded-full px-6 text-sm font-black uppercase tracking-[0.12em] transition ${
                 canBuy
                   ? "bg-volt text-asphalt hover:scale-[1.01] hover:bg-white"
                   : "cursor-not-allowed bg-white/10 text-white/38"
               }`}
             >
+              <MessageCircle size={18} />
               Comprar por WhatsApp
               <ArrowUpRight size={18} />
             </a>
-            <button
-              type="button"
-              onClick={handleAddToCart}
-              title="Agregar al carrito"
-              className="group inline-flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-white text-asphalt transition hover:scale-105 hover:bg-volt"
-            >
-              <div className="relative">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="22"
-                  height="22"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  className="lucide lucide-shopping-basket"
-                >
-                  <path d="m5 10 3-6" />
-                  <path d="m19 10-3-6" />
-                  <path d="M2 10h20" />
-                  <path d="m3.5 10 1.6 7.4a2 2 0 0 0 2 1.6h9.8a2 2 0 0 0 2-1.6l1.7-7.4" />
-                </svg>
-                <span className="absolute -right-2 -bottom-2 flex h-5 w-5 items-center justify-center rounded-full bg-volt text-[11px] font-black text-asphalt border-2 border-white group-hover:border-volt transition-colors duration-300">
-                  +
-                </span>
-              </div>
-            </button>
+            {!canBuy && (
+              <p className="text-xs leading-5 text-white/45">
+                Completa tus datos de compra arriba para habilitar WhatsApp.
+              </p>
+            )}
+            <div className="flex items-center justify-between gap-3 rounded-2xl border border-white/10 bg-black/25 px-4 py-3">
+              <p className="text-xs font-semibold text-white/55">También puedes guardar en canasta</p>
+              <button
+                type="button"
+                onClick={handleAddToCart}
+                aria-label="Añadir a la canasta"
+                className="group inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-white text-asphalt transition hover:scale-105 hover:bg-volt"
+              >
+                <BasketPlusIconLarge className="group-hover:[&_span]:border-volt transition-colors duration-300" />
+              </button>
+            </div>
           </div>
           <button
             type="button"
@@ -964,10 +998,18 @@ export default function Storefront({ initialProducts }) {
     window.localStorage.setItem("mixta-cart", JSON.stringify(cart));
   }, [cart, mounted]);
 
-  const categories = useMemo(
-    () => ["Todos", ...Array.from(new Set(products.map((product) => product.category)))],
-    [products]
-  );
+  const categorySectionOrder = useMemo(() => {
+    const order = [];
+    products.forEach((product) => {
+      const cat = product.category || "Colección";
+      if (!order.includes(cat)) {
+        order.push(cat);
+      }
+    });
+    return order;
+  }, [products]);
+
+  const categories = useMemo(() => ["Todos", ...categorySectionOrder], [categorySectionOrder]);
 
   const brands = useMemo(
     () => ["Todas", ...Array.from(new Set(products.map((product) => product.brand || "MIXTA")))],
@@ -1064,7 +1106,7 @@ export default function Storefront({ initialProducts }) {
     });
   }, [products, query, category, size, brand]);
 
-  const groupedProducts = useMemo(() => {
+  const groupedProductSections = useMemo(() => {
     const groups = {};
     filteredProducts.forEach((product) => {
       const cat = product.category || "Colección";
@@ -1073,8 +1115,11 @@ export default function Storefront({ initialProducts }) {
       }
       groups[cat].push(product);
     });
-    return groups;
-  }, [filteredProducts]);
+
+    return categorySectionOrder
+      .filter((cat) => groups[cat]?.length > 0)
+      .map((cat) => ({ name: cat, products: groups[cat] }));
+  }, [filteredProducts, categorySectionOrder]);
 
   return (
     <main className={darkMode ? "dark bg-asphalt text-white" : "bg-zinc-100 text-asphalt"}>
@@ -1113,8 +1158,12 @@ export default function Storefront({ initialProducts }) {
                 Nuevos productos
               </p>
               <h2 className="text-4xl font-display font-black uppercase leading-none sm:text-6xl">
-                Catalogo MIXTA
+                Catalogo por categorías
               </h2>
+              <p className="mt-3 max-w-xl text-sm text-white/55">
+                Cada sección coincide con la columna <span className="text-volt">categoria</span> de tu
+                Google Sheet. Los productos más recientes aparecen primero.
+              </p>
             </div>
             <button
               type="button"
@@ -1200,8 +1249,8 @@ export default function Storefront({ initialProducts }) {
             </div>
           </div>
 
-          {Object.entries(groupedProducts).map(([catName, catProducts]) => (
-            <div key={catName} className="mb-16 last:mb-0">
+          {groupedProductSections.map(({ name: catName, products: catProducts }) => (
+            <section key={catName} id={`categoria-${slugifyCategory(catName)}`} className="mb-16 last:mb-0">
               <CategoryBanner categoryName={catName} count={catProducts.length} />
               <div className="grid gap-3 grid-cols-2 sm:gap-6 md:grid-cols-3 lg:grid-cols-4">
                 {catProducts.map((product, index) => (
@@ -1214,7 +1263,7 @@ export default function Storefront({ initialProducts }) {
                   />
                 ))}
               </div>
-            </div>
+            </section>
           ))}
 
           {!filteredProducts.length && (
