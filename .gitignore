@@ -11,3 +11,7 @@ yarn-error.log*
 
 # Local Netlify folder
 .netlify
+
+# Snapshots HTML viejos (no usar para producción)
+deploy_index.html
+local_index.html

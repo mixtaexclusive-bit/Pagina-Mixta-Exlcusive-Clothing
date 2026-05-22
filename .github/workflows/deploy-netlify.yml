@@ -1,0 +1,29 @@
+name: Deploy Netlify Production
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Deploy build to Netlify
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          GOOGLE_SHEET_ID: ${{ secrets.GOOGLE_SHEET_ID }}
+          GOOGLE_SHEET_GID: ${{ secrets.GOOGLE_SHEET_GID }}
+          NEXT_PUBLIC_WHATSAPP_NUMBER: ${{ secrets.NEXT_PUBLIC_WHATSAPP_NUMBER }}
+          NEXT_PUBLIC_STORE_NAME: ${{ secrets.NEXT_PUBLIC_STORE_NAME }}
+        run: npx netlify deploy --prod --build --site=ab09cae5-702a-4ca7-b87b-13a7f169aabd

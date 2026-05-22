@@ -742,10 +742,7 @@ function ProductModal({ product, customer, updateCustomer, onAddToCart, onClose 
             </div>
           </div>
 
-          <div className="mt-6 space-y-3">
-            <p className="text-xs font-black uppercase tracking-[0.16em] text-white/45">
-              Opción recomendada
-            </p>
+          <div className="mt-6 space-y-4">
             <a
               href={canBuy ? whatsappUrl : "#comprar"}
               target={canBuy ? "_blank" : undefined}
@@ -766,13 +763,12 @@ function ProductModal({ product, customer, updateCustomer, onAddToCart, onClose 
                 Completa tus datos de compra arriba para habilitar WhatsApp.
               </p>
             )}
-            <div className="flex items-center justify-between gap-3 rounded-2xl border border-white/10 bg-black/25 px-4 py-3">
-              <p className="text-xs font-semibold text-white/55">También puedes guardar en canasta</p>
+            <div className="flex justify-center">
               <button
                 type="button"
                 onClick={handleAddToCart}
                 aria-label="Añadir a la canasta"
-                className="group inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-white text-asphalt transition hover:scale-105 hover:bg-volt"
+                className="group inline-flex h-14 w-14 items-center justify-center rounded-full border border-white/15 bg-white text-asphalt transition hover:scale-105 hover:bg-volt"
               >
                 <BasketPlusIconLarge className="group-hover:[&_span]:border-volt transition-colors duration-300" />
               </button>
