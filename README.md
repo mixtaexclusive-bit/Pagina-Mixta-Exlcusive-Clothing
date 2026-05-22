@@ -2,6 +2,26 @@
 
 Tienda online premium hecha con Next.js, React y TailwindCSS. El catálogo se alimenta automáticamente desde Google Sheets y permite compra directa por WhatsApp.
 
+## Despliegue en Netlify
+
+Sitio en producción: https://tienda-mixta-exclusive.netlify.app/
+
+1. En [Netlify](https://app.netlify.com/) abre el sitio `tienda-mixta-exclusive`.
+2. **Site configuration → Build & deploy → Link repository** y conecta:
+   `https://github.com/mixtaexclusive-bit/Pagina-Mixta-Exlcusive-Clothing`
+3. Rama: `main`, comando de build: `npm run build` (el plugin Next.js se lee desde `netlify.toml`).
+4. En **Environment variables** agrega las mismas variables de `.env.local`:
+   `GOOGLE_SHEET_ID`, `GOOGLE_SHEET_GID`, `NEXT_PUBLIC_WHATSAPP_NUMBER`, `NEXT_PUBLIC_STORE_NAME`.
+5. **Deploys → Trigger deploy → Deploy site**.
+
+Cada `git push` a `main` publicará cambios automáticamente si el repositorio está enlazado.
+
+Despliegue manual desde tu PC (requiere `netlify login` una vez):
+
+```bash
+npm run deploy:netlify
+```
+
 ## Configuración rápida
 
 1. Instala dependencias:
