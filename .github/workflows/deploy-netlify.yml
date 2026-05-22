@@ -27,8 +27,17 @@ jobs:
           node-version: 22
           cache: npm
 
+      - name: Verify Netlify token
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+        run: |
+          if [ -z "$NETLIFY_AUTH_TOKEN" ]; then
+            echo "::error::Falta el secreto NETLIFY_AUTH_TOKEN en GitHub Actions"
+            exit 1
+          fi
+
       - name: Install dependencies
-        run: npm ci
+        run: npm install --no-audit --no-fund
 
       - name: Deploy to Netlify (build + publish)
         env:
