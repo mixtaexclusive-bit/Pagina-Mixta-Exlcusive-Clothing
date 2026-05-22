@@ -5,25 +5,32 @@ on:
     branches: [main]
   workflow_dispatch:
 
+concurrency:
+  group: netlify-production
+  cancel-in-progress: true
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      GOOGLE_SHEET_ID: "2PACX-1vTn_EC3r8qz-zWlS3yFV3wBFn55QgDgCbndcnK-QTnrnECLA74r8fgdngaflkEXCuX6tYuXH921B7x3"
+      GOOGLE_SHEET_GID: "0"
+      NEXT_PUBLIC_WHATSAPP_NUMBER: "573226821174"
+      NEXT_PUBLIC_STORE_NAME: "EXCLUSIVE CLOTHING"
+      NETLIFY_SITE_ID: "ab09cae5-702a-4ca7-b87b-13a7f169aabd"
     steps:
       - uses: actions/checkout@v4
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
           cache: npm
 
       - name: Install dependencies
         run: npm ci
 
-      - name: Deploy build to Netlify
+      - name: Deploy to Netlify (build + publish)
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
-          GOOGLE_SHEET_ID: ${{ secrets.GOOGLE_SHEET_ID }}
-          GOOGLE_SHEET_GID: ${{ secrets.GOOGLE_SHEET_GID }}
-          NEXT_PUBLIC_WHATSAPP_NUMBER: ${{ secrets.NEXT_PUBLIC_WHATSAPP_NUMBER }}
-          NEXT_PUBLIC_STORE_NAME: ${{ secrets.NEXT_PUBLIC_STORE_NAME }}
-        run: npx netlify deploy --prod --build --site=ab09cae5-702a-4ca7-b87b-13a7f169aabd
+        run: npx netlify deploy --prod --build --site="$NETLIFY_SITE_ID"
