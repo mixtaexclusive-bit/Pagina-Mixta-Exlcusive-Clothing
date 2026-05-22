@@ -10,7 +10,7 @@ Crea estos secretos (copia los valores de tu `.env.local`):
 
 | Secreto | Valor |
 | --- | --- |
-| `NETLIFY_AUTH_TOKEN` | Token en [Netlify → User settings → Applications](https://app.netlify.com/user/applications#personal-access-tokens) |
+| `NETLIFY_AUTH_TOKEN` | Token en [Netlify → Applications](https://app.netlify.com/user/applications#personal-access-tokens). **Nombre exacto:** `NETLIFY_AUTH_TOKEN` (en **Actions**, no en Dependabot) |
 | `GOOGLE_SHEET_ID` | Tu ID de hoja publicada |
 | `GOOGLE_SHEET_GID` | `0` |
 | `NEXT_PUBLIC_WHATSAPP_NUMBER` | Ej. `573226821174` |

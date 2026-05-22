@@ -29,10 +29,15 @@ jobs:
 
       - name: Verify Netlify token
         env:
-          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          TOKEN_PRIMARY: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          TOKEN_ALIAS: ${{ secrets.NETLIFY_TOKEN }}
         run: |
-          if [ -z "$NETLIFY_AUTH_TOKEN" ]; then
-            echo "::error::Falta el secreto NETLIFY_AUTH_TOKEN en GitHub Actions"
+          if [ -n "$TOKEN_PRIMARY" ]; then
+            echo "NETLIFY_AUTH_TOKEN=$TOKEN_PRIMARY" >> "$GITHUB_ENV"
+          elif [ -n "$TOKEN_ALIAS" ]; then
+            echo "NETLIFY_AUTH_TOKEN=$TOKEN_ALIAS" >> "$GITHUB_ENV"
+          else
+            echo "::error::Agrega el token en GitHub → Settings → Secrets → Actions como NETLIFY_AUTH_TOKEN"
             exit 1
           fi
 
